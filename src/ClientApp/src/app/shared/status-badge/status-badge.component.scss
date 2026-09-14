@@ -1,0 +1,27 @@
+@use 'tokens' as *;
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  white-space: nowrap;
+}
+
+.status__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: $status-retired;
+}
+
+.status[data-status='InStock'] .status__dot {
+  background: $status-in-stock;
+}
+
+.status[data-status='Deployed'] .status__dot {
+  background: $status-deployed;
+}
+
+.status[data-status='UnderRepair'] .status__dot {
+  background: $status-under-repair;
+}

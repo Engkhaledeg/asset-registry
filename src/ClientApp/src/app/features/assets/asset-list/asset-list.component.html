@@ -1,0 +1,90 @@
+<div class="list-header">
+  <div>
+    <h1>Assets</h1>
+    <p class="list-header__count">{{ totalCount }} recorded</p>
+  </div>
+  <a class="button" routerLink="/assets/new">Add asset</a>
+</div>
+
+<form class="filters" [formGroup]="filters">
+  <div class="field filters__search">
+    <label class="field__label" for="searchTerm">Search tag, name or serial</label>
+    <input id="searchTerm" type="search" formControlName="searchTerm" />
+  </div>
+
+  <div class="field">
+    <label class="field__label" for="status">Status</label>
+    <select id="status" formControlName="status">
+      <option value="">Any status</option>
+      @for (option of statusOptions; track option.value) {
+        <option [value]="option.value">{{ option.label }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="field">
+    <label class="field__label" for="locationId">Location</label>
+    <select id="locationId" formControlName="locationId">
+      <option value="">Any location</option>
+      @for (location of locations; track location.id) {
+        <option [value]="location.id">{{ location.name }}</option>
+      }
+    </select>
+  </div>
+</form>
+
+@if (errorMessage) {
+  <p class="notice notice--error">{{ errorMessage }}</p>
+}
+
+<div class="table-sheet">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Tag</th>
+        <th scope="col">Asset</th>
+        <th scope="col">Location</th>
+        <th scope="col">Status</th>
+        <th scope="col" class="table__number">Purchased</th>
+        <th scope="col" class="table__number">Price</th>
+        <th scope="col"><span class="visually-hidden">Actions</span></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (asset of assets; track asset.id) {
+        <tr>
+          <td class="mono">{{ asset.assetTag }}</td>
+          <td>
+            <a [routerLink]="['/assets', asset.id]">{{ asset.name }}</a>
+            <span class="table__secondary">{{ asset.manufacturer }}, serial {{ asset.serialNumber }}</span>
+          </td>
+          <td>{{ asset.locationName }}</td>
+          <td><ar-status-badge [status]="asset.status" /></td>
+          <td class="table__number">{{ asset.purchasedOn | date: 'dd MMM yyyy' }}</td>
+          <td class="table__number mono">{{ asset.purchasePrice | currency: 'USD' }}</td>
+          <td class="table__actions">
+            <button type="button" class="button--danger" (click)="deleteAsset(asset)">Delete</button>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td class="table__empty" colspan="7">
+            @if (isLoading) {
+              Loading assets.
+            } @else {
+              No assets match these filters. Clear the search or add the first asset.
+            }
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+@if (totalPages > 1) {
+  <nav class="pager" aria-label="Pagination">
+    <button type="button" class="button--quiet" [disabled]="page <= 1" (click)="goToPage(page - 1)">Previous</button>
+    <span class="pager__position">Page {{ page }} of {{ totalPages }}</span>
+    <button type="button" class="button--quiet" [disabled]="page >= totalPages" (click)="goToPage(page + 1)">Next</button>
+  </nav>
+}

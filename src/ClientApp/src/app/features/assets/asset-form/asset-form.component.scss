@@ -1,0 +1,50 @@
+@use 'tokens' as *;
+
+.form-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: $space-4;
+  margin-bottom: $space-5;
+}
+
+.notice {
+  margin: 0 0 $space-4;
+  padding: $space-3 $space-4;
+  border-left: 3px solid $line-strong;
+  background: $surface;
+}
+
+.notice--error {
+  border-left-color: $danger;
+  color: $danger;
+}
+
+.sheet {
+  padding: $space-5;
+  background: $surface;
+  border: 1px solid $line;
+  border-radius: $radius;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: $space-4 $space-5;
+  max-width: 720px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  margin-top: $space-5;
+  padding-top: $space-4;
+  border-top: 1px solid $line;
+}
+
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

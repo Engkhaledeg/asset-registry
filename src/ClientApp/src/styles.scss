@@ -1,0 +1,111 @@
+@use 'tokens' as *;
+@use 'mixins' as *;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: $canvas;
+  color: $ink;
+  font-family: $font-sans;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+h2 {
+  font-size: 19px;
+}
+
+a {
+  color: $accent;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.button {
+  @include button-base;
+
+  background: $accent;
+  color: $surface;
+
+  &:hover:not(:disabled) {
+    background: $accent-hover;
+  }
+}
+
+.button--quiet {
+  @include button-base;
+
+  background: $surface;
+  border-color: $line-strong;
+  color: $ink;
+
+  &:hover:not(:disabled) {
+    border-color: $ink-muted;
+  }
+}
+
+.button--danger {
+  @include button-base;
+
+  background: none;
+  color: $danger;
+
+  &:hover:not(:disabled) {
+    text-decoration: underline;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: $space-1;
+}
+
+.field__label {
+  color: $ink-muted;
+  font-size: 13px;
+}
+
+.field__error {
+  color: $danger;
+  font-size: 13px;
+}
+
+.field input,
+.field select {
+  @include field-control;
+}
+
+.mono {
+  font-family: $font-mono;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

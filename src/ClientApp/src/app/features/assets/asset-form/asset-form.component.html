@@ -1,0 +1,94 @@
+<div class="form-header">
+  <h1>{{ title }}</h1>
+  <a routerLink="/assets">Back to assets</a>
+</div>
+
+@if (errorMessage) {
+  <p class="notice notice--error">{{ errorMessage }}</p>
+}
+
+<form class="sheet" [formGroup]="form" (ngSubmit)="save()">
+  <div class="grid">
+    <div class="field">
+      <label class="field__label" for="assetTag">Asset tag</label>
+      <input id="assetTag" formControlName="assetTag" class="mono" />
+      @if (form.controls.assetTag.touched && form.controls.assetTag.invalid) {
+        <span class="field__error">Enter a tag of up to 20 characters.</span>
+      }
+      @if (isEditing) {
+        <span class="field__label">Tags are fixed once an asset is recorded.</span>
+      }
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="name">Asset name</label>
+      <input id="name" formControlName="name" />
+      @if (form.controls.name.touched && form.controls.name.invalid) {
+        <span class="field__error">Enter a name.</span>
+      }
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="manufacturer">Manufacturer</label>
+      <input id="manufacturer" formControlName="manufacturer" />
+      @if (form.controls.manufacturer.touched && form.controls.manufacturer.invalid) {
+        <span class="field__error">Enter a manufacturer.</span>
+      }
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="serialNumber">Serial number</label>
+      <input id="serialNumber" formControlName="serialNumber" class="mono" />
+      @if (form.controls.serialNumber.touched && form.controls.serialNumber.invalid) {
+        <span class="field__error">Enter a serial number.</span>
+      }
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="purchasedOn">Purchase date</label>
+      <input id="purchasedOn" type="date" formControlName="purchasedOn" />
+      @if (form.controls.purchasedOn.touched && form.controls.purchasedOn.invalid) {
+        <span class="field__error">Choose the date the asset was bought.</span>
+      }
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="purchasePrice">Purchase price</label>
+      <input id="purchasePrice" type="number" min="0" step="0.01" formControlName="purchasePrice" class="mono" />
+      @if (form.controls.purchasePrice.touched && form.controls.purchasePrice.invalid) {
+        <span class="field__error">Enter a price of zero or more.</span>
+      }
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="locationId">Location</label>
+      <select id="locationId" formControlName="locationId">
+        <option value="">Choose a location</option>
+        @for (location of locations; track location.id) {
+          <option [value]="location.id">{{ location.name }} ({{ location.building }})</option>
+        }
+      </select>
+      @if (form.controls.locationId.touched && form.controls.locationId.invalid) {
+        <span class="field__error">Choose where the asset lives.</span>
+      }
+    </div>
+
+    @if (isEditing) {
+      <div class="field">
+        <label class="field__label" for="status">Status</label>
+        <select id="status" formControlName="status">
+          @for (option of statusOptions; track option.value) {
+            <option [value]="option.value">{{ option.label }}</option>
+          }
+        </select>
+      </div>
+    }
+  </div>
+
+  <div class="actions">
+    <button type="submit" class="button" [disabled]="isSaving">
+      {{ isEditing ? 'Save changes' : 'Add asset' }}
+    </button>
+    <a class="button--quiet" routerLink="/assets">Cancel</a>
+  </div>
+</form>

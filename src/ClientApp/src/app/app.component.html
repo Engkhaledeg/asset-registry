@@ -1,0 +1,18 @@
+<header class="masthead">
+  <div class="masthead__inner">
+    <a class="masthead__title" routerLink="/assets">Asset registry</a>
+
+    @if (signedInUser$ | async; as user) {
+      <div class="masthead__account">
+        <span class="masthead__user">{{ user }}</span>
+        <button type="button" class="masthead__link" (click)="signOut()">Sign out</button>
+      </div>
+    } @else {
+      <button type="button" class="masthead__link" (click)="signIn()">Sign in</button>
+    }
+  </div>
+</header>
+
+<main class="page">
+  <router-outlet />
+</main>
